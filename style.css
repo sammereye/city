@@ -1,0 +1,46 @@
+html {
+  user-select: none;
+}
+
+.grid {
+  display: grid;
+  width: 900px;
+  height: 900px;
+  border: 1px solid #c1c1c1;
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #c1c1c1;
+}
+
+.temporary {
+  width: 100%;
+  height: 100%;
+  background-color: #252525;
+  transform: rotate(-20deg);
+}
+
+.animate {
+  animation-name: example;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-out;
+    animation-delay: 0;
+    animation-direction: alternate;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+}
+
+@keyframes example {
+  from {
+    width: 0px;
+    height: 0px;
+  }
+  to {
+    width: 100%;
+    height: 100%;
+  }
+}
