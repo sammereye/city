@@ -1,41 +1,103 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
 html {
   user-select: none;
 }
 
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+
+}
+
 .grid {
   display: grid;
-  width: 900px;
-  height: 900px;
+  width: 600px;
+  height: 600px;
   border: 1px solid #c1c1c1;
 }
 
 .cell {
+  position: relative;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   border: 1px solid #c1c1c1;
+  height: 50px;
+  width: 50px;
 }
 
 .temporary {
-  width: 100%;
-  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 85%;
+  height: 85%;
   background-color: #252525;
-  transform: rotate(-20deg);
-  border-radius: 3px;
+  transform: rotate(-10deg);
+  border-radius: 2px;
   animation-name: example;
   animation-duration: 2s;
   animation-iteration-count: infinite;
-  animation-direction: 
+}
+
+.road {
+  background-color: #252525;
+  border: 1px solid #252525;
+}
+
+.paint {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: yellow;
+  width: 16px;
+  height: 4px;
+}
+
+.vertical {
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.intersection {
+  width: 10px;
+}
+
+.horizontalRightSide {
+  transform: translate(-2px, -50%);
+}
+
+.verticalTopSide {
+  transform: translate(-50%, -5px) rotate(90deg);
+}
+
+.verticalBottomSide {
+  transform: translate(-50%, 1px) rotate(90deg);
+}
+
+.horizontalLeftSide {
+  transform: translate(-8px, -50%);
+}
+
+.cross {
+  width: 4px;
 }
 
 @keyframes example {
   0% {
-    transform: rotate(-20deg);
+    transform: rotate(-10deg);
   }
   50% {
-    transform: rotate(20deg);
+    transform: rotate(10deg);
   }
   100% {
-    transform: rotate(-20deg);
+    transform: rotate(-10deg);
   }
 }
