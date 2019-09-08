@@ -1,10 +1,51 @@
+function removeRoad(coord) {
+  var ele = $('#' + coord);
+
+  ele.removeClass('road');
+  ele.empty();
+}
+
+function checkCorners(corners) {
+  var cornerCovered = true;
+  for (var i = 0; i < corners.length; i++) {
+    if (!($(corners[i]).hasClass('road'))) {
+      cornerCovered = false;
+    }
+  }
+
+  if (cornerCovered) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 function checkSides(coord) {
   var ele = $('#' + coord);
   var coords = coord.split('-');
   
   var x = parseInt(coords[0]), y = parseInt(coords[1]);
+  
+  var topLeftCorner = [`#${x-1}-${y}`, `#${x-1}-${y-1}`, `#${x}-${y-1}`];
+  if (checkCorners(topLeftCorner)) {
+    return;
+  }
 
-  var neighbors = 0;
+  var topRightCorner = [`#${x+1}-${y}`, `#${x+1}-${y-1}`, `#${x}-${y-1}`];
+  if (checkCorners(topRightCorner)) {
+    return;
+  }
+
+  var bottomRightCorner = [`#${x+1}-${y}`, `#${x+1}-${y+1}`, `#${x}-${y+1}`];
+  if (checkCorners(bottomRightCorner)) {
+    return;
+  }
+
+  var bottomLeftCorner = [`#${x-1}-${y}`, `#${x-1}-${y+1}`, `#${x}-${y+1}`];
+  if (checkCorners(bottomLeftCorner)) {
+    return;
+  }
+
 
   var roadsAround = {
     'above': false,
@@ -35,18 +76,38 @@ function checkSides(coord) {
         )
       } else if (cellAboveRight.hasClass('road')) {
         cellAbove.empty();
-        cellAbove.append(
-          $('<div/>', {class: 'paint intersection horizontalRightSide'})
-        ).append(
-          $('<div/>', {class: 'paint intersection verticalBottomSide'})
-        )
+
+        if (cellAboveAbove.hasClass('road')) {
+          cellAbove.append(
+            $('<div/>', {class: 'paint intersection horizontalRightSide'})
+          ).append(
+            $('<div/>', {class: 'paint vertical'})
+          )
+        } else {
+          cellAbove.append(
+            $('<div/>', {class: 'paint intersection horizontalRightSide'})
+          ).append(
+            $('<div/>', {class: 'paint intersection verticalBottomSide'})
+          )
+        }
+        
       } else if (cellAboveLeft.hasClass('road')) {
         cellAbove.empty();
-        cellAbove.append(
-          $('<div/>', {class: 'paint intersection horizontalLeftSide'})
-        ).append(
-          $('<div/>', {class: 'paint intersection verticalBottomSide'})
-        )
+
+        if (cellAboveAbove.hasClass('road')) {
+          cellAbove.append(
+            $('<div/>', {class: 'paint intersection horizontalLeftSide'})
+          ).append(
+            $('<div/>', {class: 'paint vertical'})
+          )
+        } else {
+          cellAbove.append(
+            $('<div/>', {class: 'paint intersection horizontalLeftSide'})
+          ).append(
+            $('<div/>', {class: 'paint intersection verticalBottomSide'})
+          )
+        }
+        
       } else {
         cellAbove.find('.paint').addClass('vertical')
       }
@@ -75,18 +136,34 @@ function checkSides(coord) {
         )
       } else if (cellBelowRight.hasClass('road')) {
         cellBelow.empty();
-        cellBelow.append(
-          $('<div/>', {class: 'paint intersection horizontalRightSide'})
-        ).append(
-          $('<div/>', {class: 'paint intersection verticalTopSide'})
-        )
+        if (cellBelowBelow.hasClass('road')) {
+          cellBelow.append(
+            $('<div/>', {class: 'paint intersection horizontalRightSide'})
+          ).append(
+            $('<div/>', {class: 'paint vertical'})
+          )
+        } else {
+          cellBelow.append(
+            $('<div/>', {class: 'paint intersection horizontalRightSide'})
+          ).append(
+            $('<div/>', {class: 'paint intersection verticalTopSide'})
+          )
+        }
       } else if (cellBelowLeft.hasClass('road')) {
         cellBelow.empty();
-        cellBelow.append(
-          $('<div/>', {class: 'paint intersection horizontalLeftSide'})
-        ).append(
-          $('<div/>', {class: 'paint intersection verticalTopSide'})
-        )
+        if (cellBelowBelow.hasClass('road')) {
+          cellBelow.append(
+            $('<div/>', {class: 'paint intersection horizontalLeftSide'})
+          ).append(
+            $('<div/>', {class: 'paint vertical'})
+          )
+        } else {
+          cellBelow.append(
+            $('<div/>', {class: 'paint intersection horizontalLeftSide'})
+          ).append(
+            $('<div/>', {class: 'paint intersection verticalTopSide'})
+          )
+        }
       } else {
         cellBelow.find('.paint').addClass('vertical')
       }
@@ -117,13 +194,36 @@ function checkSides(coord) {
         )
       } else if (cellRightAbove.hasClass('road')) {
         cellRight.empty();
-        cellRight.append(
-          $('<div/>', {class: 'paint intersection horizontalLeftSide'})
-        ).append(
-          $('<div/>', {class: 'paint intersection verticalTopSide'})
-        )
+
+        if (cellRightRight.hasClass('road')) {
+          cellRight.append(
+            $('<div/>', {class: 'paint horizontal'})
+          ).append(
+            $('<div/>', {class: 'paint intersection verticalTopSide'})
+          )
+        } else {
+          cellRight.append(
+            $('<div/>', {class: 'paint intersection horizontalLeftSide'})
+          ).append(
+            $('<div/>', {class: 'paint intersection verticalTopSide'})
+          )
+        }
       } else if (cellRightBelow.hasClass('road')) {
         cellRight.empty();
+
+        if (cellRightRight.hasClass('road')) {
+          cellRight.append(
+            $('<div/>', {class: 'paint horizontal'})
+          ).append(
+            $('<div/>', {class: 'paint intersection verticalBottomSide'})
+          )
+        } else {
+          cellRight.append(
+            $('<div/>', {class: 'paint intersection horizontalLeftSide'})
+          ).append(
+            $('<div/>', {class: 'paint intersection verticalBottomSide'})
+          )
+        }
         cellRight.append(
           $('<div/>', {class: 'paint intersection horizontalLeftSide'})
         ).append(
@@ -156,18 +256,36 @@ function checkSides(coord) {
         )
       } else if (cellLeftAbove.hasClass('road')) {
         cellLeft.empty();
-        cellLeft.append(
-          $('<div/>', {class: 'paint intersection horizontalRightSide'})
-        ).append(
-          $('<div/>', {class: 'paint intersection verticalTopSide'})
-        )
+
+        if (cellLeftLeft.hasClass('road')) {
+          cellLeft.append(
+            $('<div/>', {class: 'paint horizontal'})
+          ).append(
+            $('<div/>', {class: 'paint intersection verticalTopSide'})
+          )
+        } else {
+          cellLeft.append(
+            $('<div/>', {class: 'paint intersection horizontalRightSide'})
+          ).append(
+            $('<div/>', {class: 'paint intersection verticalTopSide'})
+          )
+        }
       } else if (cellLeftBelow.hasClass('road')) {
         cellLeft.empty();
-        cellLeft.append(
-          $('<div/>', {class: 'paint intersection horizontalRightSide'})
-        ).append(
-          $('<div/>', {class: 'paint intersection verticalBottomSide'})
-        )
+
+        if (cellLeftLeft.hasClass('road')) {
+          cellLeft.append(
+            $('<div/>', {class: 'paint horizontal'})
+          ).append(
+            $('<div/>', {class: 'paint intersection verticalBottomSide'})
+          )
+        } else {
+          cellLeft.append(
+            $('<div/>', {class: 'paint intersection horizontalRightSide'})
+          ).append(
+            $('<div/>', {class: 'paint intersection verticalBottomSide'})
+          )
+        }
       }
     }
   }
@@ -292,17 +410,19 @@ $(function() {
     $(this).find('.temporary').remove();
   });
 
-  $('.cell').on('mousedown', function() {
+  $('.cell').on('mousedown', function(e) {
+    switch (e.which) {
+      case 1:
+        checkSides($(this).attr('id'));
+        break;
+      case 3:
+          removeRoad($(this).attr('id'));
+        break;
+    }
     
-    checkSides($(this).attr('id'));
+  });
 
-
-    // if ($(this).css('backgroundColor') != 'rgb(37, 37, 37)') {
-    //   $(this).addClass('road');
-    //   $(this).find('.temporary').remove();
-    //   $(this).append(
-    //     $('<div/>', {class: 'paint'})
-    //   )
-    // }
+  $('body').on('contextmenu', function() {
+    return false;
   });
 });
