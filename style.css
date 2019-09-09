@@ -51,6 +51,10 @@ html {
 }
 
 .toolbar .tool .car {
+  position: relative;
+  transform: none;
+  left: 0;
+  top: 0;
   width: 15px;
   height: 15px;
   border-radius: 50%;
@@ -105,6 +109,26 @@ html {
   background-color: yellow;
   width: 16px;
   height: 4px;
+}
+
+.car {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #e74c3c;
+  z-index: 1;
+}
+
+.carLeft {
+  left: 25%;
+}
+
+.carRight {
+  left: 75%;
 }
 
 .vertical {

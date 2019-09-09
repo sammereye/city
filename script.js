@@ -1,8 +1,39 @@
+function hoverCar(coord) {
+  var ele = $('#' + coord);
+
+  ele.append(
+    $('<div/>', {class: 'car temporaryCar'})
+  )
+}
+
+function placeCar(coord) {
+  var ele = $('#' + coord);
+
+  ele.find('.temporaryCar').remove();
+  ele.append(
+    $('<div/>', {class: 'car'})
+  )
+}
+
 function removeRoad(coord) {
   var ele = $('#' + coord);
 
-  ele.removeClass('road');
-  ele.empty();
+  if ($(ele).hasClass('road')) {
+    ele.removeClass('road');
+    ele.empty();
+
+    var coords = coord.split('-');
+    
+    var x = parseInt(coords[0]), y = parseInt(coords[1]);
+
+    var sides = [`#${x-1}-${y}`, `#${x+1}-${y}`, `#${x}-${y-1}`, `#${x}-${y+1}`];
+
+    for (var i = 0; i < sides.length; i++) {
+      if ($(sides[i]).hasClass('road')) {
+        checkSides(sides[i].substr(1));
+      }
+    }
+  }
 }
 
 function checkCorners(corners) {
@@ -407,11 +438,20 @@ $(function() {
           )
         )
       }
+    } else {
+      if (selectedTool == 'car') {
+        if ($(this).hasClass('road')) {
+          if ($(this).find('.car').length == 0) {
+            hoverCar($(this).attr('id'));
+          }
+        }
+      }
     }
   });
 
   $('.cell').on('mouseleave', function() {
     $(this).find('.temporary').remove();
+    $(this).find('.temporaryCar').remove();
   });
 
   $('.cell').on('mousedown', function(e) {
@@ -423,6 +463,17 @@ $(function() {
         case 3:
           removeRoad($(this).attr('id'));
           break;
+      }
+    } else if (selectedTool == 'car') {
+      if ($(this).hasClass('road')) {
+        switch (e.which) {
+          case 1:
+            placeCar($(this).attr('id'));
+            break;
+          case 3:
+            removeCar($(this).attr('id'));
+            break;
+        }
       }
     }
   });
@@ -436,7 +487,19 @@ $(function() {
       selectedTool = '';
       $(this).removeClass('selected');
     } else {
-      selectedTool = 'road';
+      if ($(this).hasClass('roadTool')) {
+        selectedTool = 'road';
+      } else if ($(this).hasClass('carTool')) {
+        selectedTool = 'car';
+      }
+
+      var pressedTool = this;
+      $('.tool').each(function() {
+        if (!(this == pressedTool)) {
+          $(this).removeClass('selected');
+        }
+      });
+      
       $(this).addClass('selected');
     }
   });
