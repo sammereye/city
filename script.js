@@ -367,9 +367,10 @@ function checkSides(coord) {
 $(function() {
   var columns = '';
   var rows = '';
+  var selectedTool = '';
 
   var width = $(document).width();
-  var height = $(document).height();
+  var height = $(document).height() - 100;
 
   var horizontalCells = Math.floor(width / 50);
   var verticalCells = Math.floor(height / 50);
@@ -391,6 +392,7 @@ $(function() {
     }
   }
   
+  $('.toolbar').css('width', `${horizontalCells * 50}px`)
   $('.grid').css('width', `${horizontalCells * 50}px`)
   $('.grid').css('height', `${verticalCells * 50}px`)
   $('.grid').css('grid-template-columns', columns);
@@ -398,11 +400,13 @@ $(function() {
 
   $('.cell').on('mouseover', function() {
     if ($(this).children().length == 0) {
-      $(this).append(
-        $('<div/>', {class: 'temporary'}).append(
-          $('<div/>', {class: 'paint'})
+      if (selectedTool == 'road') {
+        $(this).append(
+          $('<div/>', {class: 'temporary'}).append(
+            $('<div/>', {class: 'paint'})
+          )
         )
-      )
+      }
     }
   });
 
@@ -411,18 +415,29 @@ $(function() {
   });
 
   $('.cell').on('mousedown', function(e) {
-    switch (e.which) {
-      case 1:
-        checkSides($(this).attr('id'));
-        break;
-      case 3:
+    if (selectedTool == 'road') {
+      switch (e.which) {
+        case 1:
+          checkSides($(this).attr('id'));
+          break;
+        case 3:
           removeRoad($(this).attr('id'));
-        break;
+          break;
+      }
     }
-    
   });
 
   $('body').on('contextmenu', function() {
     return false;
+  });
+
+  $('.tool').on('click', function() {
+    if ($(this).hasClass('selected')) {
+      selectedTool = '';
+      $(this).removeClass('selected');
+    } else {
+      selectedTool = 'road';
+      $(this).addClass('selected');
+    }
   });
 });

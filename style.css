@@ -13,13 +13,58 @@ html {
   align-items: center;
   justify-content: center;
   height: 100vh;
+  flex-direction: column;
+}
 
+.toolbar {
+  font-family: 'Manjari', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  border: 2px solid #c1c1c1;
+}
+
+.toolbar .tool {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 3px;
+  margin: 0 10px;
+}
+
+.toolbar .selected {
+  background-color: #9dccff;
+}
+
+.toolbar .tool .name {
+  margin-right: 10px;
+  font-size: 20px;
+  margin-top: 3px;
+}
+
+.toolbar .tool .road {
+  width: 25px;
+  height: 25px;
+  position: relative;
+}
+
+.toolbar .tool .car {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: #e74c3c;
+}
+
+.toolbar .tool .toolIcon .paint {
+  width: 8px;
+  height: 2px;
 }
 
 .grid {
   display: grid;
-  width: 600px;
-  height: 600px;
+  margin-top: 25px;
   border: 1px solid #c1c1c1;
 }
 
