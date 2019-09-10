@@ -437,6 +437,10 @@ $(function() {
             $('<div/>', {class: 'paint'})
           )
         )
+      } else if (selectedTool == 'house') {
+        $(this).append(
+          $('<div/>', {class: 'house temporaryHouse'})
+        )
       }
     } else {
       if (selectedTool == 'car') {
@@ -452,6 +456,7 @@ $(function() {
   $('.cell').on('mouseleave', function() {
     $(this).find('.temporary').remove();
     $(this).find('.temporaryCar').remove();
+    $(this).find('.temporaryHouse').remove();
   });
 
   $('.cell').on('mousedown', function(e) {
@@ -491,6 +496,8 @@ $(function() {
         selectedTool = 'road';
       } else if ($(this).hasClass('carTool')) {
         selectedTool = 'car';
+      } else if ($(this).hasClass('houseTool')) {
+        selectedTool = 'house';
       }
 
       var pressedTool = this;

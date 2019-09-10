@@ -44,7 +44,7 @@ html {
   margin-top: 3px;
 }
 
-.toolbar .tool .road {
+.toolbar .tool .road, .toolbar .tool .house {
   width: 25px;
   height: 25px;
   position: relative;
@@ -89,6 +89,19 @@ html {
   width: 85%;
   height: 85%;
   background-color: #252525;
+  transform: rotate(-10deg);
+  border-radius: 2px;
+  animation-name: example;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+}
+
+.temporaryHouse {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 85%;
+  height: 85%;
   transform: rotate(-10deg);
   border-radius: 2px;
   animation-name: example;
@@ -157,6 +170,21 @@ html {
 
 .cross {
   width: 4px;
+}
+
+.house {
+  border: none;
+  background-color: #613315;
+}
+
+.house .door {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  background-color: #bf987f;
+  width: 20px;
+  height: 5px;
+  transform: translate(-50%, 0);
 }
 
 @keyframes example {
